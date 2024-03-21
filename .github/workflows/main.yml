@@ -14,8 +14,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Set environment variables
+        run: |
+          VARIABLES=$(cat variables.yml)
+          export $(echo "$VARIABLES" | grep -v '^variables:' | tr -d ' ' | sed 's/: /=/g')
+
       - name: Print Krishna's Age
-        run: echo "Krishna's age is ${{ variables.krishna.age }}"
+        run: echo "Krishna's age is $krishna_age"
 
       - name: Print Manoj's City
-        run: echo "Manoj lives in ${{ variables.manoJ.city }}"
+        run: echo "Manoj lives in $krishna_city"
