@@ -1,0 +1,55 @@
+name: CI/CD_frontend_Layer_Dashboard_UI_staging
+
+on:
+  workflow_dispatch: 
+jobs:
+  app-frontend-deployment-staging:
+    runs-on: self-hosted
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      CI: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.10.0'
+
+      - name: Install dependencies
+        run: npm install -g npm@latest
+
+      - name: Install vite with force
+        run: npm install vite --force
+
+      - name: Build project
+        run: |
+           npm run build
+      - name: Post-build
+        run: |
+         find . -type d -name "dest" 
+
+      - name: Configure AWS credentials using role ARN for develop branch
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ARN_STAGING }}
+          audience: sts.amazonaws.com
+          role-duration-seconds: 1800
+          role-session-name: Github
+          aws-region: ${{ secrets.REGION_STAGING }}
+          retry-max-attempts: 2
+
+
+      # - name: Sync build folder contents to S3
+      #   run: aws s3 sync dist/ s3://${{ vars.S3_BUCKET_NAME_STAGING }}.circuitry.ai
+
+      # - name: Create CloudFront invalidation
+      #   run: aws cloudfront create-invalidation --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID_STAGING }} --paths "/*"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-frontend-artifact-staging   
+          path: dist/    
