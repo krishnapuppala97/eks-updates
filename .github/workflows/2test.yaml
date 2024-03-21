@@ -1,0 +1,37 @@
+name: Rasa server Image -Train,Build,Push
+
+on:
+  workflow_dispatch:
+    inputs:
+      databricks-url:
+        description: 'give the databricks end point url'
+        required: true
+      clinet-name:
+        description: 'name of the client'
+        required: true
+jobs:
+  core-action-server-image-build-push:
+    name: Training, Testing, and Docker Image Build
+    runs-on: ubuntu
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      USERNAME: Circuitry-ai
+      REGISTRY: ghcr.io
+      TAG1: coreserver
+      TAG2: actionserver
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+
+    - name: verify model built
+      run: |
+        cd models
+        ls
+
+    - name: add databricks endpoint url
+      run: |
+        sed -i 's/databricks-endpoint-url/${{ github.event.inputs.databricks-url }}/g' ./actions/actions.py
+        sed -n '128,135p' ./actions/actions.py
