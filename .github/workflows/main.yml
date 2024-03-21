@@ -19,7 +19,7 @@ jobs:
         run: |
           VARIABLES=$(cat variables.yml)
           echo "$VARIABLES" | yq -r '. as $vars | $vars.krishna | to_entries[] | "export krishna_\(.key)=\(.value)" >> $GITHUB_ENV
-          echo "$VARIABLES" | yq -r '. as $vars | $vars.manoj | to_entries[] | "export manoj_\(.key)=\(.value)" >> $GITHUB_ENV'
+          echo "$VARIABLES" | yq -r '. as $vars | $vars.manoj | to_entries[] | "export manoj_\(.key)=\(.value)" >> $GITHUB_ENV
 
       - name: Print Krishna's Age
         run: echo "Krishna's age is $krishna_age"
