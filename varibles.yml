@@ -1,8 +1,6 @@
-variables:
-  krishna:
-    age: 26
-    city: mtm
-  manoJ:
-    age: 23
-    city: hyd
-
+krishna:
+  age: 26
+  city: mtm
+manoj:
+  age: 23
+  city: hyd
