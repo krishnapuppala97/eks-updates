@@ -17,7 +17,7 @@ jobs:
       - name: Set environment variables
         run: |
           VARIABLES=$(cat variables.yml)
-          export $(echo "$VARIABLES" | grep -v '^variables:' | tr -d ' ' | sed 's/: /=/g')
+          echo "$VARIABLES" | yq -r '.variables | to_entries[] | "export \(.key)=\(.value)"' >> $GITHUB_ENV
 
       - name: Print Krishna's Age
         run: echo "Krishna's age is $krishna_age"
