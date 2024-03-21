@@ -1,0 +1,21 @@
+name: Example GitHub Action
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Manually triggered workflow
+
+jobs:
+  example_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Print Krishna's Age
+        run: echo "Krishna's age is ${{ variables.krishna.age }}"
+
+      - name: Print Manoj's City
+        run: echo "Manoj lives in ${{ variables.manoJ.city }}"
