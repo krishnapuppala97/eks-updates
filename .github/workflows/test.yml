@@ -1,0 +1,31 @@
+name: My Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Load environment variables from .env
+        run: echo "Loading .env file" && source .env
+
+      - name: Use environment variables in action
+        run: |
+          echo "API_KEY is $API_KEY"
+          echo "USERNAME is $USERNAME"
+          echo "PASSWORD is $PASSWORD"
