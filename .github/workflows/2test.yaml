@@ -1,6 +1,9 @@
 name: Rasa server Image -Train,Build,Push
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       databricks-url:
