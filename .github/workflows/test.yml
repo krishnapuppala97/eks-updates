@@ -8,6 +8,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      API_KEY: 12
+      USERNAME: 1234
+      PASSWORD: 456666
+      URL: "https://example.com"  # Replace this with your actual URL
 
     steps:
       - name: Checkout code
@@ -29,3 +34,8 @@ jobs:
           echo "API_KEY is $API_KEY"
           echo "USERNAME is $USERNAME"
           echo "PASSWORD is $PASSWORD"
+
+      - name: Add Databricks endpoint URL
+        run: | 
+          sed -i "s|databricks-endpoint-url|$URL|g" ./actions/actions.py
+          sed -n '128,135p' ./actions/actions.py
